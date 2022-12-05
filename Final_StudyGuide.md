@@ -98,7 +98,7 @@ Methods such as
 * except 
 * unique
 ---
-## 3.5 Integrity Constraints 
+## 2.5 Integrity Constraints 
 Integrity constraints ensure changes made to the datbase by authorized users do not result in a loss of data consistency. Thus, integrity constraints guard against accidental damage to the datbase.
 
 **Basic forms of integrity constraints**
@@ -125,7 +125,52 @@ create table section
     check (semester in ('Fall', 'Winter', 'Spring', 'Summer')));
 ```
 ---
+## 3 ERD Design
+### Cardinality
 
+* One to one
+  * An entity in A is associated with at most one entity in B, and an entity
+in B is associated with at most one entity in A.
+    ![](./images/One-to-one.png)
+* One to many
+  * An entity in A is associated with any number (zero or more) of entities in B. An entity in B, however, can be associated with at most one entity in A.
+    ![](images/One-to-many.png)
+* Many to one
+  * An entity in A is associated with at most one entity in B. An entity
+in B, however, can be associated with any number (zero or more) of entities in A
+    ![](./images/Many-to-one.png)
+* Many to many
+  * An entity in A is associated with any number (zero or more) of
+entities in B, and an entity in B is associated with any number (zero or more) of
+entities in A
+    ![](./images/Many-to-many.png)
+
+---
+
+## 4. JDBC 
+
+### Updating Table in JDBC 
+
+```java
+  public static void main(String[] args) {
+    try (
+         Connection con=DriverManager.getConnection("jdbc:oracle:thin:@edgar1.cse.lehigh.edu:1521:cse241", user_name, new String(pwd));
+         Statement s=con.createStatement();
+         ) {
+           String q;
+           ResultSet result;
+           int i;
+           q = "create table enemies2 (dog_name varchar(20), weight numeric(9,2))";
+           i = s.executeUpdate(q);
+           System.out.println ("value returned: " + i);
+         } catch(Exception e){e.printStackTrace();}
+  }
+```
+---
+
+## 5 Writing Triggers to include integrity contraints
+
+---
 ## 7 Normalization Decomposition
 
 ### 1. BCNF
