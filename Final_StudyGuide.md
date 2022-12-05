@@ -5,7 +5,7 @@ List of things to study from recording:
 2. SQL Set opertaions
    1. Aggrigate handling null
    2. Nested Querry
-   3. testing trusted querry
+   3. Integrity constraints
 3. ERD Design Cardinality
 4. JDBC
    1. Update table through jdbc with pre-written code. 
@@ -48,6 +48,7 @@ List of things to study from recording:
 16. Distributed and parallel querry processing
 
 ---
+<!-- TODO add data for all joins -->
 ## 1 Outer join 
 
 Outer join can be used for symmetric difference between the opposing side. Natually biasing the side in the description of 
@@ -79,8 +80,55 @@ In a aggrigation querry, null values are considered to be ignored in all situati
 
 Nested subquerries are tools used for performing set based operations by creating additional groups within the where clause of another querry. 
 
-Mostly using 
+Using commands such as `in` and `not in` subquerries can be used for comparison
 
+```sql
+select distinct course id
+from section
+where semester = 'Fall' and year= 2017 and
+course id not in (select course id
+                from section
+                where semester = 'Spring' and year= 2018);
+```
+
+Methods such as 
+* all 
+* some >1
+* exists >=1
+* not exists
+* except 
+* unique
+---
+## 3.5 Integrity Constraints 
+Integrity constraints ensure changes made to the datbase by authorized users do not result in a loss of data consistency. Thus, integrity constraints guard against accidental damage to the datbase.
+
+**Basic forms of integrity constraints**
+* not null
+* unique
+* check(\<predicate\>)
+
+``` sql
+name varchar(20) not null
+budget numeric(12,2) not null
+```
+
+**Check Predicate**
+```sql
+create table section
+    (course id varchar (8),
+    sec id varchar (8),
+    semester varchar (6),
+    year numeric (4,0),
+    building varchar (15),
+    room number varchar (7),
+    time slot id varchar (4),
+    primary key (course id, sec id, semester, year),
+    check (semester in ('Fall', 'Winter', 'Spring', 'Summer')));
+```
+
+
+
+---
 
 ## 7 Normalization Decomposition
 
@@ -94,7 +142,7 @@ A table is in 3NF iff for each non-trivial FD at least one of the following hold
    2. RHS is prime attribute
 (i.e. is in 2NF and no transitive dependencies for non-prime attributes. NPA -> NPA not allowed). 3NF ensures dependency preservation but there is a possibility for redundancy.
 
-
+---
 ## 8 Functional Dependencies
 
 ### 1. Find Candidate Keys
@@ -102,6 +150,8 @@ The candidate key is a minimal set of attributes that can determine every attrib
 
 ### 2. Armstrong Axioms
 
+
+---
 ## 9 Dependency Preservation and Losslessness
 
 ### 1. Dependency Preservation
