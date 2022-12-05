@@ -131,18 +131,22 @@ create table section
 * One to one
   * An entity in A is associated with at most one entity in B, and an entity
 in B is associated with at most one entity in A.
+
     ![](./images/One-to-one.png)
 * One to many
   * An entity in A is associated with any number (zero or more) of entities in B. An entity in B, however, can be associated with at most one entity in A.
+  * 
     ![](images/One-to-many.png)
 * Many to one
   * An entity in A is associated with at most one entity in B. An entity
 in B, however, can be associated with any number (zero or more) of entities in A
+
     ![](./images/Many-to-one.png)
 * Many to many
   * An entity in A is associated with any number (zero or more) of
 entities in B, and an entity in B is associated with any number (zero or more) of
 entities in A
+
     ![](./images/Many-to-many.png)
 
 ---
@@ -180,31 +184,103 @@ Triggers can be used to implement integrity constaints that are not possible thr
 
 Example of trigger update
 ```sql 
-    create trigger timeslot check1 after insert on section
+    /*From In-class examples */
+    create table TC (
+    id number(7),
+    name varchar(20)
+    );
+
+    create table tmp (
+    id number(7),
+    semester varchar(5),
+    name varchar(20)
+    );
+
+    -- add new tuple to tmp when an new tuple is inserted into TC
+    create or replace trigger add_tc after insert on TC
+    referencing new as new old as old
+    for each row
+    begin
+    insert into tmp (id, semester, name) values (:new.id, 'Fall', :new.name);
+    end;
+
+    insert into TC (id, name) values (10109,'abk');
+
+    create trigger timeslot_check1 after insert on section
     referencing new row as nrow
     for each row
-    when (nrow.time slot id not in (
-            select time slot id
-            from time slot)) /* time slot id not present in time slot */
+    when (nrow.time_slot_id not in (
+            select time slot_id
+            from time_slot)) /* time slot id not present in time slot */
     begin
         rollback
     end;
 
-    create trigger timeslot check2 after delete on timeslot
+    create trigger timeslot_check2 after delete on timeslot
     referencing old row as orow
     for each row
-    when (orow.time slot id not in (
-            select time slot id
-            from time slot) /* last tuple for time slot id deleted from time slot */
-        and orow.time slot id in (
-            select time slot id
+    when (orow.time_slot_id not in (
+            select time slot_id
+            from time_slot) /* last tuple for time slot id deleted from time slot */
+        and orow.time_slot_id in (
+            select time slot_id
             from section)) /* and time slot id still referenced from section*/
     begin
-    rollback
+        rollback
     end;
 ```
+In a more simplistic fashion
 
+```sql
+create or replace trigger trigger_name [after/before] [insert/update/delete] of table_name on column_name
+
+referencing old row as orow, new row as nrow
+for each row
+when /*predicate, if needed*/
+
+ declare /*if needed*/
+ variable_name type :=0
+
+ begin
+    /*process to be completed on rows*/
+    insert into tmp (id, semester, name) values (:nrow.id, 'Fall', :nrow.name);
+
+    select count(*) into variable_name
+    from table_name
+    if variable_name<1 then 
+        raise_application_error(-20000,:nrow.dept_name||' not in dept_budget'); 
+    end if;
+
+    /*the : is used when referring to values in current row*/
+    if :nrow.salary<0 or :nrow.salary is null then
+    :nrow.salary := 0;
+  end if;
+end;
+```
 ---
+## 6 OLAP 
+
+### Ranking
+
+```sql
+select ID, rank() over (order by GPA desc) as s_rank
+from student_grades
+```
+
+### Cube
+
+Will create groupings based on every possible combination of included sets
+
+```sql
+select item name, color, clothes size, sum(quantity)
+from sales
+group by cube(item name, color, clothes size);
+
+{ (item name, color, clothes size), (item name, color), (item name, clothes size),
+(color, clothes size), (item name), (color), (clothes size), () }
+
+```
+
 ## 7 Normalization Decomposition
 
 ### 1. BCNF
