@@ -61,11 +61,6 @@ Outer join can be used for symmetric difference between the opposing side. Natua
 
 With this syntax, the side of the comparison that is used in the name will exist as the full table, and each of the other comparisons will have null when not populated.
 
----
-<<<<<<< HEAD
-
-## 2  
-=======
 ## 2 SQL Set Operations
 
 ### Aggrigate Handling null
@@ -129,10 +124,6 @@ create table section
     primary key (course id, sec id, semester, year),
     check (semester in ('Fall', 'Winter', 'Spring', 'Summer')));
 ```
-
-
-
->>>>>>> b45a232a16a368a2fc30b035a134d8c281c302c2
 ---
 
 ## 7 Normalization Decomposition
@@ -149,14 +140,10 @@ A table is in 3NF iff for each non-trivial FD at least one of the following hold
    2. RHS is prime attribute
 (i.e. is in 2NF and no transitive dependencies for non-prime attributes. NPA -> NPA not allowed). 3NF ensures dependency preservation but there is a possibility for redundancy.
 
-<<<<<<< HEAD
 ![Image](./images/3nf.png)
 
----
 
-=======
 ---
->>>>>>> b45a232a16a368a2fc30b035a134d8c281c302c2
 ## 8 Functional Dependencies
 
 ### 1. Find Candidate Keys
@@ -164,13 +151,6 @@ The candidate key is a minimal set of attributes that can determine every attrib
 
 ### 2. Armstrong Axioms
 
-<<<<<<< HEAD
----
-
-=======
-
----
->>>>>>> b45a232a16a368a2fc30b035a134d8c281c302c2
 ## 9 Dependency Preservation and Losslessness
 
 ### 1. Dependency Preservation
