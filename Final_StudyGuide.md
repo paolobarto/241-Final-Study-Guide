@@ -61,8 +61,9 @@ Outer join can be used for symmetric difference between the opposing side. Natua
 With this syntax, the side of the comparison that is used in the name will exist as the full table, and each of the other comparisons will have null when not populated.
 
 ---
-## 2  
 
+## 2  
+---
 
 ## 7 Normalization Decomposition
 
@@ -70,12 +71,17 @@ With this syntax, the side of the comparison that is used in the name will exist
 A given table is in BCNF if and only if it is in 3NF and for each non-trivial FD X->Y, X is a super key (i.e. X<sup>+</sup> covers all attributes in table). In other words, it is 3NF form but the first option/condition for 3NF is necessary.
 BCNF doesn't ensure dependency preservation (unlike 3NF), but it guarantees a lossless join.
 
+![Image](./images/bcnf.png)
+
 ### 2. 3NF
 A table is in 3NF iff for each non-trivial FD at least one of the following holds:
    1. LHS is super key
    2. RHS is prime attribute
 (i.e. is in 2NF and no transitive dependencies for non-prime attributes. NPA -> NPA not allowed). 3NF ensures dependency preservation but there is a possibility for redundancy.
 
+![Image](./images/3nf.png)
+
+---
 
 ## 8 Functional Dependencies
 
@@ -84,6 +90,8 @@ The candidate key is a minimal set of attributes that can determine every attrib
 
 ### 2. Armstrong Axioms
 
+---
+
 ## 9 Dependency Preservation and Losslessness
 
 ### 1. Dependency Preservation
@@ -91,3 +99,17 @@ A decomposition is dependency preserving if the closure of (F<sub>1</sub> U F<su
 
 ### 2. Losslessness
 A decomposition is lossless if the union of all tables ( ∀ R<sub>i</sub>), equals the original table R. This is held if every table is connected through a foreign and primary key, which then can determine all attributes in each R<sub>i</sub>.
+
+
+---
+
+## 11 Index Types
+
+### 1.  B+ tree index
+         
+         
+### 2.  How to operate on B+ tree
+### 3.  Hash index
+### 4.  Sparse / dense index
+### 5.  Primary / secondary index
+### 6.  Advantages or disadvantages 
