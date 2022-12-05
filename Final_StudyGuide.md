@@ -61,4 +61,22 @@ Outer join can be used for symmetric difference between the opposing side. Natua
 With this syntax, the side of the comparison that is used in the name will exist as the full table, and each of the other comparisons will have null when not populated.
 
 ---
-## 2  
+## 2 SQL Set Operations
+
+### Aggrigate Handling null
+
+Things like `not(1<null)` would evaulate to true 
+
+* **and**: The result of true **and** unknown is unknown, false **and** unknown is false, while unknown **and** unknown is unknown.
+* **or**: The result of true **or** unknown is true, false **or** unknown is unknown, while unknown **or** unknown is unknown.
+* **not**: The result of **not** unknown is unknown.
+
+Any situation where the the outcome of the logical expression is explicity given by the other term, the solution will be unknown. 
+
+In a aggrigation querry, null values are considered to be ignored in all situations except `count(*)`
+
+### Nested Querry
+
+Nested subquerries are tools used for performing set based operations by creating additional groups within the where clause of another querry. 
+
+Mostly using 
