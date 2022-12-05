@@ -62,3 +62,32 @@ With this syntax, the side of the comparison that is used in the name will exist
 
 ---
 ## 2  
+
+
+## 7 Normalization Decomposition
+
+### 1. BCNF
+A given table is in BCNF if and only if it is in 3NF and for each non-trivial FD X->Y, X is a super key (i.e. X<sup>+</sup> covers all attributes in table). In other words, it is 3NF form but the first option/condition for 3NF is necessary.
+BCNF doesn't ensure dependency preservation (unlike 3NF), but it guarantees a lossless join.
+
+### 2. 3NF
+A table is in 3NF iff for each non-trivial FD at least one of the following holds:
+   1. LHS is super key
+   2. RHS is prime attribute
+(i.e. is in 2NF and no transitive dependencies for non-prime attributes. NPA -> NPA not allowed). 3NF ensures dependency preservation but there is a possibility for redundancy.
+
+
+## 8 Functional Dependencies
+
+## 1. Find Candidate Keys
+The candidate key is a minimal set of attributes that can determine every attribute in the table. This can be seen by finding the closure of candidate key (CK<sup>+</sup>). A method for finding a candidate key is to start with the closure of all attributes (Ex: ABCDEF+), then remove attributes incrementally that can be found from the remaining attributes' FDs.
+
+## 2. Armstrong Axioms
+
+### 9 Dependency Preservation and Losslessness
+
+## 1. Dependency Preservation
+A decomposition is dependency preserving if the closure of (F<sub>1</sub> U F<sub>2</sub> U ... F<sub>n</sub>) is equivalent to the closure of F. F<sub>1</sub>,F<sub>2</sub>.. being the set of FD's that include only attributes in their respective tables.. . In other words, can the decomposed tables' FDs be rewritten (using Armstrong axioms) to hold the same logic of original set of FDs, F?
+
+## 2. Losslessness
+A decomposition is lossless if the union of all tables ( ∀ R<sub>i</sub>), equals the original table R. This is held if every table is connected through a foreign and primary key, which then can determine all attributes in each R<sub>i</sub>.
