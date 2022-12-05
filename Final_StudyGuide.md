@@ -170,6 +170,40 @@ entities in A
 
 ## 5 Writing Triggers to include integrity contraints
 
+
+**Trigger** is a statement that the system executes automatically as a side effect of a modification to the database 
+
+1. Specify when a trigger is to be executed. Broken up into an event  and condition
+2. Specify the actions to be taken when the trigger executes
+
+Triggers can be used to implement integrity constaints that are not possible through nomral sql commands 
+
+Example of trigger update
+```sql 
+    create trigger timeslot check1 after insert on section
+    referencing new row as nrow
+    for each row
+    when (nrow.time slot id not in (
+            select time slot id
+            from time slot)) /* time slot id not present in time slot */
+    begin
+        rollback
+    end;
+
+    create trigger timeslot check2 after delete on timeslot
+    referencing old row as orow
+    for each row
+    when (orow.time slot id not in (
+            select time slot id
+            from time slot) /* last tuple for time slot id deleted from time slot */
+        and orow.time slot id in (
+            select time slot id
+            from section)) /* and time slot id still referenced from section*/
+    begin
+    rollback
+    end;
+```
+
 ---
 ## 7 Normalization Decomposition
 
