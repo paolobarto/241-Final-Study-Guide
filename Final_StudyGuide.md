@@ -36,3 +36,9 @@ List of things to study from recording:
      5.  Advantages or disadvantages 
  12. Querry processing 
      1.  Is the right algorithm used for the right situation 
+     2.  Be able to connect formuals to real life connection
+11. Recovery algorithm 
+12. Async properties of transactions
+13. Stable storage / checkpoints 
+14. Concurrency 
+    1.  
