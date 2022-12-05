@@ -41,4 +41,24 @@ List of things to study from recording:
 12. Async properties of transactions
 13. Stable storage / checkpoints 
 14. Concurrency 
-    1.  
+    1.  Two-phase locking
+    2.  Granularity
+    3.  Deadlock
+15. Phantoms 
+16. Distributed and parallel querry processing
+
+---
+## 1 Outer join 
+
+Outer join can be used for symmetric difference between the opposing side. Natually biasing the side in the description of 
+
+* Left outer join
+* Right outer join
+* Full outer join
+
+`natural left outer join` is the correct syntax of outer natual join
+
+With this syntax, the side of the comparison that is used in the name will exist as the full table, and each of the other comparisons will have null when not populated.
+
+---
+## 2  
