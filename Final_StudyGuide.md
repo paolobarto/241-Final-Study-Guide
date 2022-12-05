@@ -244,10 +244,19 @@ A decomposition is lossless if the union of all tables ( ∀ R<sub>i</sub>), equ
 ## 11 Index Types
 
 ### 1.  B+ tree index
-         
-         
+B+ trees have multilevel indexing, where nonleaf nodes of the tree form a multilevel sparse index on the leaf nodes. Each node can hold up to n pointers. A leaf node has between ceiling((n-1)/2) and n-1 values.
+![Image](./images/b+node.png)
+
 ### 2.  How to operate on B+ tree
+Insertion: Traverse down tree until you find leaf node where key value should appear after. Insert the key and pointer of new insertion in the node if it has less than n-1 key-values. Else resize leafs and parents according to the B+ rules involving the specified limits of pointers and values a given node can have.
+[B+ Tree Video](https://youtu.be/aZjYr87r1b8?t=1639)
+[Inserting](https://www.youtube.com/watch?v=47DUnfH1D0w)
+[Deleting](https://www.youtube.com/watch?v=YZECPU-3iHs)
+
 ### 3.  Hash index
+
 ### 4.  Sparse / dense index
+
 ### 5.  Primary / secondary index
+
 ### 6.  Advantages or disadvantages 
