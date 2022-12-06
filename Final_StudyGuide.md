@@ -320,6 +320,36 @@ A decomposition is lossless if the union of all tables ( ∀ R<sub>i</sub>), equ
 
 ---
 
+## 10. Storage
+### 1.  Formulas
+#### 1.  Cost of accessing data
+#### 2.  Seeking time
+#### 3.  rotational time
+#### 4.  buffer within memory
+### 2. RAID 
+#### RAID 0 - Block striping; non-redundant.
+Blocks are sequentially distributed to each disk in RAID 0.
+Parallelism makes RAID 0 high-performance, but data loss is common. RAID 0 doesnt prevent data loss.
+Example: 
+  Blocks of data are denoted as letters
+  File ABCDEF
+  Disk1(ACE)
+  Disk2(BDF)
+
+#### RAID 1 - Mirrored disks with block striping
+Essentially RAID 0, but copied to another set of disks.
+Offers best write performance and is data loss preventative.
+Example:
+  File ABCDEF
+  Disk1(ACE)
+  Disk2(BDF)
+  Disk3(ACE)
+  Disk4(BDF)
+#### RAID 5 - Block-Interleaved Distributed Parity
+Parity blocks help reconstruct data between each parity.
+Block writes occur in parallel for multiple disk setups -> high write performance
+![Image](./images/raid5.png)
+
 ## 11 Index Types
 
 ### 1.  B+ tree index
