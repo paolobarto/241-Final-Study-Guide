@@ -61,6 +61,7 @@ Outer join can be used for symmetric difference between the opposing side. Natua
 
 With this syntax, the side of the comparison that is used in the name will exist as the full table, and each of the other comparisons will have null when not populated.
 
+---
 ## 2 SQL Set Operations
 
 ### Aggrigate Handling null
@@ -281,6 +282,8 @@ group by cube(item name, color, clothes size);
 
 ```
 
+TODO insert formula for cube row number
+
 ## 7 Normalization Decomposition
 
 ### 1. BCNF
@@ -316,15 +319,6 @@ A decomposition is lossless if the union of all tables ( ∀ R<sub>i</sub>), equ
 
 
 ---
-## 10. Storage
-### 1.  Formulas
-#### 1.  Cost of accessing data
-#### 2.  Seeking time
-#### 3.  rotational time
-#### 4.  buffer within memory
-### 2. RAID 
-RAID 0 - Block Striping; non-redundant.
-  Blocks are stored
 
 ## 11 Index Types
 
