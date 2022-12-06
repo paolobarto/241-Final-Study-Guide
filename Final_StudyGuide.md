@@ -366,7 +366,29 @@ There are different ways of handling transactions such as this.
 * Index locking protocol to prevent phantoms
   * Every relation must have at least one index
   * A transaction can access tuples only after finding them through one or more indicies on the relation
+  * A transaction Ti that performs a lookup must lock all the index leaf nodes that it accesses, in S-mode
+    * Even if the leaf node does not contain any tuple satisfying the index lookup (e.g. for a range query, no tuple in a leaf is in the range)
+  * A transaction Ti that inserts, updates or deletes a tuple ti in a relation r
+    * Must update all indices to r
+    * Must obtain exclusive locks on all index leaf nodes affected by the insert/update/delete
+  * The rules of the two-phase locking protocol must be observed
+* Guarantees that phantom phenomenon won’t occur
 
+### Snapshot Isolation
+Motivation: Decision support queries that read large amounts of data
+have concurrency conflicts with OLTP transactions that update a few
+rows
+  * Poor performance results
+* Solution 1: Use multiversion 2-phase locking
+  * Give logical “snapshot” of database state to read only transaction
+    * Reads performed on snapshot
+  * Update (read-write) transactions use normal locking
+  * Works well, but how does system know a transaction is read only?
+* Solution 2 (partial): Give snapshot of database state to every transaction
+  * Reads performed on snapshot
+  * Use 2-phase locking on updated data items
+  * Problem: variety of anomalies such as lost update can result
+  * Better solution: snapshot isolation level (next slide)
 
 ---
 ## 16 Distributed and parallel querry processing
