@@ -365,7 +365,7 @@ There are different ways of handling transactions such as this.
 ### Index locking to prevent phantoms
 * Index locking protocol to prevent phantoms
   * Every relation must have at least one index
-  * 
+  * A transaction can access tuples only after finding them through one or more indicies on the relation
 
 
 ---
