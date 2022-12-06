@@ -244,19 +244,35 @@ A decomposition is lossless if the union of all tables ( ∀ R<sub>i</sub>), equ
 ## 11 Index Types
 
 ### 1.  B+ tree index
-B+ trees have multilevel indexing, where nonleaf nodes of the tree form a multilevel sparse index on the leaf nodes. Each node can hold up to n pointers. A leaf node has between ceiling((n-1)/2) and n-1 values.
+B+ trees have multilevel indexing, where nonleaf levels of the tree form a hierarchy of sparse indices. The leaf nodes are dense indices connected by sequential pointers. Each node can hold up to n pointers. A leaf node has between ceiling((n-1)/2) and n-1 values.
 ![Image](./images/b+node.png)
 
 ### 2.  How to operate on B+ tree
-Insertion: Traverse down tree until you find leaf node where key value should appear after. Insert the key and pointer of new insertion in the node if it has less than n-1 key-values. Else resize leafs and parents according to the B+ rules involving the specified limits of pointers and values a given node can have.
+Insertion: Traverse down tree until you find leaf node where key value should appear after. Insert the key and pointer of new insertion in the node if it has less than n-1 key-values. Else split leafs and parents according to the B+ rules involving the specified limits of pointers and values a given node can have.
+Splitting example:
+![Image](./images/splitting.png)
+Find Query: find(v)
+Finds a given value v, returns null if there is no record v that exists. Finds the smallest i where K<sub>i</sub> in the current node is greater than or equal to v. Then go to the the P<sub>i+1</sub> if v ==  K<sub>i</sub>. Else go to P<sub>i</sub>. Once a leaf node K is reached return K if equal to v. Else return null.
+
+Range Query: Perform find(lb), then iterate through the leaf nodes in the linked list until the upper bound is reached or the next node is null. i.e. find(lower bound), then linear search to ub.
 [B+ Tree Video](https://youtu.be/aZjYr87r1b8?t=1639)
 [Inserting](https://www.youtube.com/watch?v=47DUnfH1D0w)
 [Deleting](https://www.youtube.com/watch?v=YZECPU-3iHs)
 
 ### 3.  Hash index
-
+For a hash index we only care about putting, getting and deleting records by key. Hence, the hash index can be modeled as the following component with its parameters and performance characteristics (hash indexes provide terrible performance for range queries and full scans so will be omitted):
+![Image](./images/hash.png)
+ 
 ### 4.  Sparse / dense index
+Dense indexing: one-to-one relation with search-key values and records.
+Sparse indexing: one-to-many relation with search-key values and records. i.e. contains index records for only some search-key values. Sparse indexing requires records to be sequentially ordered.
 
 ### 5.  Primary / secondary index
-
+Clustering/primary index: in a sequentially ordered file, the indexing is done using a search key (typically the primary key/unique ID).
+Nonclustering/secondary index: an index whose search key specifies an order different than the one on record. Secondary indices have to be dense. 
 ### 6.  Advantages or disadvantages 
+B+ Trees: The tree height is no more than ceiling(log<sub>ceiling(n/2)</sub>K), K being the amount of search-key values in file. Searching is very efficient. 
+* Example: if n = 100, 4 nodes would need to be accessed to find a key value within 1,000,000 search-key values.
+
+Insertion and deltion to main file is efficient, as the index can be restructured in log time.
+
