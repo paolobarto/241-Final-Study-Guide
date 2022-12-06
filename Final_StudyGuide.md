@@ -316,6 +316,15 @@ A decomposition is lossless if the union of all tables ( ∀ R<sub>i</sub>), equ
 
 
 ---
+## 10. Storage
+### 1.  Formulas
+#### 1.  Cost of accessing data
+#### 2.  Seeking time
+#### 3.  rotational time
+#### 4.  buffer within memory
+### 2. RAID 
+RAID 0 - Block Striping; non-redundant.
+  Blocks are stored
 
 ## 11 Index Types
 
