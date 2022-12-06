@@ -336,3 +336,104 @@ Insertion: Traverse down tree until you find leaf node where key value should ap
 ### 5.  Primary / secondary index
 
 ### 6.  Advantages or disadvantages 
+---
+## 15 Phantoms
+    
+
+Phantoms is basically just a missing tuple in the process of reading. Usually a phantom is created by a sitaution such as insert before a read has been completed.
+
+There are different ways of handling transactions such as this.
+
+### Index locking to prevent phantoms
+* Index locking protocol to prevent phantoms
+  * Every relation must have at least one index
+  * 
+
+
+---
+## 16 Distributed and parallel querry processing
+**I don't know what to cover here since he didn't explicitly say what**
+
+* Homogeneous distributed databases
+  * Same software/schema on all sites, data may be partitioned among
+sites
+  * Goal: provide a view of a single database, hiding details of distribution
+* Heterogeneous distributed databases
+  * Different software/schema on different sites
+  * Goal: integrate existing databases to provide useful functionality
+
+* Local transactions
+  * Access/update data at only one database
+* Global transactions
+  * Access/update data at more than one database
+
+### Two Phase Commit Protocol (2PC)
+Let T be a transaction initiated at site S<sub>i</sub>, and let the transaction coordinator at S<sub>i</sub> be C<sub>i</sub>
+
+* Coordinator asks all participants to prepare to commit transaction Ti
+  * Ci adds the records **<prepare T\>** to the log and forces log to stable storage
+  * sends prepare T messages to all sites at which T executed
+* Upon receiving message, transaction manager at site determines if it can
+commit the transaction
+  * if not, add a record **<no T\>** to the log and send **abort** T message to Ci
+  * if the transaction can be committed, then:
+    * add the record **<ready T\>** to the log
+    * force all records for T to stable storage
+    * send **ready** T message to Ci
+
+
+Transaction is now in ready state at the site
+
+
+* T can be committed of Ci received a **ready** T message from all the
+participating sites: otherwise T must be aborted.
+* Coordinator adds a decision record, **<commit T\>** or **<abort T\>**, to the log
+and forces record onto stable storage. Once the record stable storage it is
+irrevocable (even if failures occur)
+* Coordinator sends a message to each participant informing it of the
+decision (commit or abort)
+* Participants take appropriate action locally
+
+![](images/Two_phase_commit.png)
+
+**Handling of failures**
+The handling of most failures is mostly intuituve, noting in all cases that if the logs contain:
+* **<commit T\>**, then execute a redo(T)
+* **<abort T\>**, then execute an undo(T)
+* **<ready T\>**, then consult coordinator
+  * same as prior, with commit and abort
+* If there are no control records then undo(T)
+
+
+### Concurrency control
+
+### Single-Lock-Manager Approach
+* In single lock-manager approach, lock manager runs on a single chosen site, say S<sub>i</sub>
+  * All lock requests sent to central lock manager
+* The transaction can read the data item from any one of the sites at which a replica of the data item resides.
+* Writes must be performed on all replicas of a data item
+* Advantages of scheme:
+  * Simple implementation
+  * Simple deadlock handling
+* Disadvantages of scheme are:
+  * Bottleneck: lock manager site becomes a bottleneck
+  * Vulnerability: system is vulnerable to lock manager site failure.
+
+#### Distributed-Lock_Manager Approach
+* In the distributed lock-manager approach, functionality of locking is
+implemented by lock managers at each site
+  * Lock managers control access to local data items
+  * Locking is performed separately on each site accessed by transaction
+    * Every replica must be locked and updated
+    * But special protocols may be used for replicas (more on this later)
+* Advantage: work is distributed and can be made robust to failures
+* Disadvantage:
+  * Possibility of a global deadlock without local deadlock at any single site
+  * Lock managers must cooperate for deadlock detection
+
+There is a section here about local and wait-for graphs and pretty much all it indicates is when a cycle is detected between resources it the coordinator chooses who will be executed.
+
+This is ususally called a **false-cycle** things like two-phase locking can prevent this.
+
+A **Distributed deadlock-detection** approach is one that waiting for informations and checks for deadlocks. **Expensive and not used in practice**.
+
